@@ -19,9 +19,8 @@ const App = () => {
   const [userAnswer, setUserAnswer] = useState<AnswerObject[]>([]);
   const [number, setNumber] = useState(0);
   const [score, setScore] = useState(0);
-  const [ganeOver, setGameOver] = useState(true);
+  const [gameOver, setGameOver] = useState(true);
 
-  console.log(fetchQuizQuestion(TOTAL_QUESTION, Difficulty.EASY));
   const startTrivia = async () => {
     setLoading(true);
     setGameOver(false);
@@ -36,7 +35,7 @@ const App = () => {
     setLoading(false);
   };
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!ganeOver) {
+    if (!gameOver) {
       const answer = e.currentTarget.value;
       const correct = questions[number].correct_answer === answer;
       if (correct) setScore((prev) => prev + 1);
@@ -63,15 +62,15 @@ const App = () => {
       <GlobalStyle />
       <Wrapper>
         <h1>React Quiz</h1>
-        {ganeOver || userAnswer.length === TOTAL_QUESTION ? (
+        {gameOver || userAnswer.length === TOTAL_QUESTION ? (
           <button className="start" onClick={startTrivia}>
             Start
           </button>
         ) : null}
-        {!ganeOver ? <p className="score">Score:{score}</p> : null}
+        {!gameOver ? <p className="score">Score:{score}</p> : null}
         {loading && <p>Quiztion Loading ...</p>}
 
-        {!loading && !ganeOver && (
+        {!loading && !gameOver && (
           <QuestionCard
             questionNr={number + 1}
             totalQuestion={TOTAL_QUESTION}
@@ -81,7 +80,7 @@ const App = () => {
             userAnswer={userAnswer ? userAnswer[number] : undefined}
           />
         )}
-        {!ganeOver &&
+        {!gameOver &&
         !loading &&
         userAnswer.length === number + 1 &&
         number !== TOTAL_QUESTION - 1 ? (
